@@ -2,6 +2,23 @@
 
 #include <stdio.h>
 
+t_list		*duplicate(t_list **lst)
+{
+	t_list	*list = NULL;
+	t_list	*it;
+
+	if (!lst || !(*lst))
+		return (NULL);
+	it = *lst;
+	while (it)
+	{
+		int c;
+		c = (*(int *)it->content);
+		ft_lstpush(&list, ft_lstnew(&c, sizeof(c)));
+	}
+	return list;
+}
+
 void		display(const char *tag, t_list **lst)
 {
 	t_list *it;
@@ -19,6 +36,85 @@ void		display(const char *tag, t_list **lst)
 	printf("\n");
 }
 
+int		ft_lstlen(t_list **lst)
+{
+	t_list *it;
+	int res;
+	if (!lst || !(*lst))
+		return (0);
+	res = 1;
+	it = *lst;
+	while (it->next)
+	{
+		it = it->next;
+		res++;
+	}
+	return (res);
+}
+
+int		ft_lstgetmax(t_list **lst)
+{
+	t_list	*it;
+	int	max;
+
+	if (!lst || !(*lst))
+		return (0);
+	max =(*(int *) (*lst)->content);
+	it = (*lst)->next;
+	while (it)
+	{
+		if ((*(int *)it->content) > max)
+			max = (*(int *)it->content);
+		it = it->next;
+	}
+	return (max);
+}
+
+int		ft_lstgetmin(t_list **lst)
+{
+	t_list	*it;
+	int	min;
+
+	if (!lst || !(*lst))
+		return (0);
+	min =(*(int *) (*lst)->content);
+	it = (*lst)->next;
+	while (it)
+	{
+		if ((*(int *)it->content) < min)
+			min = (*(int *)it->content);
+		it = it->next;
+	}
+	return (min);
+}
+
+int		ft_lstgetminindex(t_list **lst)
+{
+	t_list	*it;
+	int	minindex;
+	int	min;
+	int	index;
+
+	if (!lst || !(*lst))
+		return (-1);
+	min =(*(int *) (*lst)->content);
+	it = (*lst)->next;
+	minindex = 0;
+	index = 0;
+	while (it)
+	{
+		if ((*(int *)it->content) < min)
+		{
+			minindex = index;
+			min = (*(int *)it->content);
+		}
+		it = it->next;
+		index++;
+	}
+	return (minindex);
+}
+
+
 int		ft_lstsorted(t_list **list)
 {
 	t_list	*it;
@@ -34,6 +130,42 @@ int		ft_lstsorted(t_list **list)
 		it = it->next;
 	}
 	return (1);
+}
+
+int		ft_lstinversed(t_list **list)
+{
+	t_list	*it;
+
+	if (!list || !(*list))
+		return (0);
+
+	it = *list;
+	while (it && it->next)
+	{
+		if ((*(int *)it->next->content) > (*(int *)it->content))
+			return (0);
+		it = it->next;
+	}
+	return (1);
+}
+
+int		ft_lstvaluebreak(t_list **list)
+{
+	t_list	*it;
+//	int res = 0;
+
+	if (!list || !(*list))
+		return (0);
+
+	it = *list;
+	while (it && it->next)
+	{
+		if ((*(int *)it->next->content) < (*(int *)it->content))
+			return (0);
+		it = it->next;
+	}
+	return (1);
+
 }
 
 void	process_param(t_list **list, char *param)
