@@ -75,7 +75,8 @@ PART3 = ft_lstnew.c    \
 		ft_lstpush.c    \
 		ft_lstiter.c   \
 		ft_lstmap.c	\
-		get_next_line.c
+		get_next_line.c \
+		ft_lstgetindex.c
 
 FLAGS = -Wall -Wextra -Werror
 
@@ -83,11 +84,14 @@ OBJ1 = $(PART1:.c=.o)
 OBJ2 = $(PART2:.c=.o)
 OBJ3 = $(PART3:.c=.o)
 
-$(NAME): all
+all : $(NAME)
 
-all: 
+$(NAME): 
 	gcc $(FLAGS) -c $(PART1) $(PART2) $(PART3)
 	ar -rc $(NAME) $(OBJ1) $(OBJ2) $(OBJ3)
+
+%.o : %.c
+	gcc $(FLAGS) -o $@ -c $<
 
 clean:
 	rm -rf $(OBJ1) $(OBJ2) $(OBJ3)

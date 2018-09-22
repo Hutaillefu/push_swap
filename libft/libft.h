@@ -93,4 +93,6 @@ t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 # define BUFF_SIZE 32
 
 int		get_next_line(const int fd, char **line);
+
+t_list		*ft_lstgetindex(t_list **lst, int index);
 #endif

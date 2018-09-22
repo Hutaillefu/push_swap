@@ -99,7 +99,6 @@ t_list		*get_lst(t_list **lst, size_t fd)
 int			get_next_line(const int fd, char **line)
 {
 	static t_list	*list = NULL;
-	char			*stock;
 	char			*res;
 	t_list			*current;
 
@@ -108,7 +107,6 @@ int			get_next_line(const int fd, char **line)
 	current = get_lst(&list, (size_t)fd);
 	if (!current)
 		return (-1);
-	stock = (char *)current->content;
 	if ((char *)current->content)
 	{
 		if ((res = process((char **)&current->content)))
