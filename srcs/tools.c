@@ -114,6 +114,47 @@ int		ft_lstgetminindex(t_list **lst)
 	return (minindex);
 }
 
+int		can_rotate(t_list **lst)
+{
+	t_list	*it;
+	int nb = 0;
+	int first = (*(int *)(*lst)->content);
+	it = *lst;
+	while (it && it->next)
+	{
+		if ((*(int *)it->next->content) < (*(int *)it->content))
+		{
+			if (nb == 1 && (*(int *)it->content) > first)
+				return (0);
+			if (it->next->next != NULL && (*(int *)it->content) < first )
+				nb++;
+		}
+		it = it->next;
+	}
+	return nb;
+}
+
+int		can_rotate_index(t_list **lst)
+{
+	t_list	*it;
+	int nb = 0;
+	int index = 0;
+	int curr_index = 0;
+
+	it = *lst;
+	while (it && it->next)
+	{
+		if ((*(int *)it->next->content) < (*(int *)it->content))
+		{
+			curr_index = index;
+			nb++;
+		}
+		index++;
+		it = it->next;
+	}
+	return curr_index;
+}
+
 
 int		ft_lstsorted(t_list **list)
 {
@@ -180,10 +221,12 @@ void	process_param(t_list **list, char *param)
 	ft_lstpush(list, ft_lstnew(&value, sizeof(value)));
 }
 
-void	process_command(char *command, t_list **la, t_list **lb)
+static int cpt = 0;
+
+int	process_command(char *command, t_list **la, t_list **lb)
 {
 	if (!command || !la || !lb)
-		return ;
+		return 0;
 	if (ft_strcmp(command, "sa") == 0)
 		swap_two_first(la);
 	else if (ft_strcmp(command, "sb") == 0)
@@ -218,5 +261,7 @@ void	process_command(char *command, t_list **la, t_list **lb)
 	display("la : ", la);
 	display("lb : ", lb);
 	printf("\n");
+	cpt++;
+	return cpt;
 
 }

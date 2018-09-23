@@ -13,11 +13,13 @@ int	ft_lstsorted(t_list **lst);
 int	ft_lstgetmax(t_list **lst);
 int	ft_lstgetmin(t_list **lst);
 int	ft_lstgetminindex(t_list **lst);
+int	can_rotate(t_list **lst);
+int	can_rotate_index(t_list **lst);
 
 t_list	*duplicate(t_list **lst);
 
 int	ft_lstlen(t_list **lst);
 
 void	process_param(t_list **lst, char *param);
-void	process_command(char *command, t_list **la, t_list **lb);
+int	process_command(char *command, t_list **la, t_list **lb);
 #endif

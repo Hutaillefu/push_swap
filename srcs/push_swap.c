@@ -2,6 +2,8 @@
 
 #include <stdio.h>
 
+static int cpt = 0;
+
 int	ft_lstgetvalue(t_list **lst)
 {
 	return ((*(int *)(*lst)->content));
@@ -9,93 +11,121 @@ int	ft_lstgetvalue(t_list **lst)
 
 void	sort_2(t_list **lst_to_sort, t_list **other)
 {
-	printf("sorting list of 2\n");
-	process_command("sa", lst_to_sort, other);
+	cpt = process_command("sa", lst_to_sort, other);
 }
 
 void	sort_3(t_list **list_to_sort, t_list **other)
 {
-	printf("sorting list of 3\n");
-
 	int a = *((int *)(*list_to_sort)->content);
 	int b = *((int *)(*list_to_sort)->next->content);
 	int c = *((int *)(*list_to_sort)->next->next->content);
 
 	if (c > a && c > b)		// c = max
-		process_command("sa", list_to_sort, other);
+		cpt = process_command("sa", list_to_sort, other);
 	else if (a < b && a < c)	// a = min
 	{
-		process_command("rra", list_to_sort, other);
-		process_command("sa", list_to_sort, other);
+		cpt = process_command("rra", list_to_sort, other);
+		cpt = process_command("sa", list_to_sort, other);
 	}
 
 	if (ft_lstsorted(list_to_sort))
 		return ;
 
-	 if (a > b && a > c)	// a = max
- 		 process_command("ra", list_to_sort, other);
+	if (a > b && a > c)	// a = max
+		cpt = process_command("ra", list_to_sort, other);
 
 	if (ft_lstsorted(list_to_sort))
 		return ;
 
 	if (c < a && c < b && a > b)
-		process_command("sa", list_to_sort, other);
-	
+		cpt = process_command("sa", list_to_sort, other);
+
 	if (!ft_lstsorted(list_to_sort))
-	 	process_command("rra", list_to_sort, other);
+		cpt = process_command("rra", list_to_sort, other);
 }
 
 void	sort_4(t_list **list_to_sort, t_list **other)
 {
-	printf("sorting list of 4\n");
-
 	int min = ft_lstgetmin(list_to_sort);
 	int min_index = ft_lstgetminindex(list_to_sort) + 1;
 	int len = ft_lstlen(list_to_sort);
 	char *cmd;
 
-	printf("min index %d on %d len\n", min_index, len);
+	int canrotate = can_rotate(list_to_sort);
 
-	if ((len - min_index + 1.0) > len / 2.0)
-		cmd = ft_strdup("ra");
-	else 
-		cmd = ft_strdup("rra");
+	if (canrotate == 1)
+	{
+		printf("CAN ROTATE\n");
+		while ((*(int *)(*list_to_sort)->content) != min)
+			cpt = process_command("rra", list_to_sort, other);
+		return ;
+	}
 
-	while ((*(int *)(*list_to_sort)->content) != min)
-		process_command(cmd, list_to_sort, other);
+
+	if (min_index == 1)
+		cpt = process_command("sa", list_to_sort, other);
+	else
+	{
+
+		if ((len - min_index + 1.0) > len / 2.0)
+			cmd = ft_strdup("ra");
+		else 
+			cmd = ft_strdup("rra");
+
+		while ((*(int *)(*list_to_sort)->content) != min)
+			cpt = process_command(cmd, list_to_sort, other);
+	}
+
 	if (ft_lstsorted(list_to_sort))
 		return ;
 
-	process_command("pb", list_to_sort, other);
+	cpt = process_command("pb", list_to_sort, other);
 	sort_3(list_to_sort, other);
-	process_command("pa", list_to_sort, other);
+	cpt = process_command("pa", list_to_sort, other);
 }
 
 void	sort_n(t_list **list_to_sort, t_list **other)
 {
-	printf("sorting list of n\n");
-
 	int min = ft_lstgetmin(list_to_sort);
 	int min_index = ft_lstgetminindex(list_to_sort) + 1;
 	int len = ft_lstlen(list_to_sort);
 	char *cmd;
 
-	printf("min index %d on %d len\n", min_index, len);
+	printf("ESFSF %d\n", min_index);
 
-	if ((len - min_index + 1.0) > len / 2.0)
-		cmd = ft_strdup("ra");
-	else 
+	int canrotate = can_rotate(list_to_sort);
+	//int canrotateindex = can_rotate_index(list_to_sort);
+
+	if (canrotate == 1)
+	{
+		printf("CAN ROTATE\n");
+		while ((*(int *)(*list_to_sort)->content) != min)
+			cpt = process_command("rra", list_to_sort, other);
+		return ;
+	}
+	
+	if (min_index == 1)
+		cpt = process_command("sa", list_to_sort, other);
+	else
+	{
+		if ((len - min_index + 1.0) > len / 2.0)
+			cmd = ft_strdup("ra");
+		else 
 		cmd = ft_strdup("rra");
+		while ((*(int *)(*list_to_sort)->content) != min)
+			cpt = process_command(cmd, list_to_sort, other);
+	}
 
-	while ((*(int *)(*list_to_sort)->content) != min)
-		process_command(cmd, list_to_sort, other);
-	process_command("pb", list_to_sort, other);
+	if (ft_lstsorted(list_to_sort))
+		return ;
+
+	cpt = process_command("pb", list_to_sort, other);
 
 	if (ft_lstlen(list_to_sort) == 4)
 		sort_4(list_to_sort, other);
 	else 
 		sort_n(list_to_sort, other);
-	process_command("pa", list_to_sort, other);
+	cpt = process_command("pa", list_to_sort, other);
 }
 
 int	main(int argc, char **argv)
@@ -133,6 +163,8 @@ int	main(int argc, char **argv)
 		sort_4(&la, &lb);
 	else 
 		sort_n(&la, &lb);
+
+	printf("NB ACTIONS : %d\n", cpt); 
 
 	return (0);
 }
