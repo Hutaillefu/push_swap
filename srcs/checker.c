@@ -1,39 +1,44 @@
 #include "push_swap.h"
 
-#include <stdio.h>
+int		init_param(t_list **la, char **argv)
+{
+	while (argv && *argv)
+	{
+		if (!process_param(la, *argv))
+		{
+			ft_putstr_fd("Error\n", 2);
+			//free la
+			return (0);
+		}
+		argv++;
+	}
+	return (1);
+}
 
 int		main(int argc, char **argv)
 {
 	t_list	*la;
 	t_list	*lb;
 	char	*line;
-	
+
 	if (argc == 1)
 		return (0);
-
 	argv++;
 	lb = NULL;
-	while (argv && *argv)
-	{
-		process_param(&la, *argv);
-		argv++;		
-	}
-
+	if (!init_param(&la, argv))
+		return (0);
 	while (get_next_line(0, &line))
 	{
-		process_command(line, &la, &lb);
+		if (!process_command(line, &la, &lb, 0))
+		{
+			ft_putstr_fd("Error\n", 2);
+			//free la
+			return (0);
+		}
 	}
-
 	if (ft_lstsorted(&la) && lb == NULL)
-		printf("OK\n");
+		ft_putstr("OK\n");
 	else
-		printf("KO\n");
-
-	while (la)
-	{
-		printf("%d\n", (*(int *)la->content));
-		la = la->next;
-	}
-
+		ft_putstr("KO\n");
 	return (0);
 }

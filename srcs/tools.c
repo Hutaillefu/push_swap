@@ -19,7 +19,7 @@ t_list		*duplicate(t_list **lst)
 	return list;
 }
 
-void		display(const char *tag, t_list **lst)
+void	display(const char *tag, t_list **lst)
 {
 	t_list *it;
 	if (!lst)
@@ -211,24 +211,42 @@ int		ft_lstvaluebreak(t_list **list)
 
 }
 
-void	process_param(t_list **list, char *param)
+int		ft_lstdoublon(t_list **lst, int value)
 {
-	int value;
+	t_list	*it;
+	if (!lst || !(*lst))
+		return (0);
+	it = *lst;
+	while (it)
+	{
+		if ((*(int *)it->content) == value)
+			return (1);
+		it = it->next;
+	}
+	return (0);
+}
+
+int		process_param(t_list **list, char *param)
+{
+	long value;
 
 	if (!list || !param)
-		return;
-	// Verif doublon, ...
+		return (0);
 	value = ft_atoi(param);
-
+	if (value > 2147483647 || (value == 0 && ft_strcmp(param, "0") != 0) || ft_lstdoublon(list, value))
+		return (0);
+	
 	ft_lstpush(list, ft_lstnew(&value, sizeof(value)));
+	return (1);
 }
 
 static int cpt = 0;
 
-int	process_command(char *command, t_list **la, t_list **lb)
+int	process_command(char *command, t_list **la, t_list **lb, int display)
 {
 	if (!command || !la || !lb)
 		return 0;
+		
 	if (ft_strcmp(command, "sa") == 0)
 		swap_two_first(la);
 	else if (ft_strcmp(command, "sb") == 0)
@@ -260,10 +278,17 @@ int	process_command(char *command, t_list **la, t_list **lb)
 		rotate_down(la);
 		rotate_down(lb);
 	}
-	display("la : ", la);
+	else
+		return (0);
+	
+	if (display)
+		printf("%s\n", command);
+
+	/*display("la : ", la);
 	display("lb : ", lb);
-	printf("\n");
+	printf("\n");*/
+	
 	cpt++;
-	return cpt;
+	return (1);
 
 }
