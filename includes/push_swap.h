@@ -1,3 +1,16 @@
+/* ************************************************************************** */
+/*                                                          LE - /            */
+/*                                                              /             */
+/*   push_swap.h                                      .::    .:/ .      .::   */
+/*                                                 +:+:+   +:    +:  +:+:+    */
+/*   By: htaillef <marvin@le-101.fr>                +:+   +:    +:    +:+     */
+/*                                                 #+#   #+    #+    #+#      */
+/*   Created: 2018/10/08 18:29:48 by htaillef     #+#   ##    ##    #+#       */
+/*   Updated: 2018/10/08 18:29:52 by htaillef    ###    #+. /#+    ###.fr     */
+/*                                                         /                  */
+/*                                                        /                   */
+/* ************************************************************************** */
+
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
@@ -15,11 +28,8 @@ int		ft_lstgetmin(t_list **lst);
 int		ft_lstgetminindex(t_list **lst);
 int		can_rotate(t_list **lst);
 int		can_rotate_index(t_list **lst);
-
 t_list	*duplicate(t_list **lst);
-
 int		ft_lstlen(t_list **lst);
-
 int     process_param(t_list **lst, char *param);
 int		process_command(char *command, t_list **la, t_list **lb, int display);
 #endif
