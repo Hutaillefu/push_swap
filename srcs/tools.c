@@ -98,9 +98,9 @@ int		ft_lstgetminindex(t_list **lst)
 	if (!lst || !(*lst))
 		return (-1);
 	min =(*(int *) (*lst)->content);
-	it = (*lst)->next;
 	minindex = 0;
 	index = 0;
+	it = *lst;
 	while (it)
 	{
 		if ((*(int *)it->content) < min)
@@ -124,11 +124,13 @@ int		can_rotate(t_list **lst)
 	{
 		if ((*(int *)it->next->content) < (*(int *)it->content))
 		{
-			if (nb == 1 && (*(int *)it->content) > first)
+			if (nb == 1)
 				return (0);
-			if (it->next->next != NULL && (*(int *)it->content) < first )
+			if (it->next->next != NULL && (*(int *)it->next->content) < first )
 				nb++;
 		}
+		else if (nb == 1)
+			return (0);
 		it = it->next;
 	}
 	return nb;

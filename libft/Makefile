@@ -87,14 +87,14 @@ OBJ3 = $(PART3:.c=.o)
 all : $(NAME)
 
 $(NAME): 
-	gcc $(FLAGS) -c $(PART1) $(PART2) $(PART3)
+	@gcc $(FLAGS) -c $(PART1) $(PART2) $(PART3)
 	ar -rc $(NAME) $(OBJ1) $(OBJ2) $(OBJ3)
 
 %.o : %.c
-	gcc $(FLAGS) -o $@ -c $<
+	@gcc $(FLAGS) -o $@ -c $<
 
 clean:
-	rm -rf $(OBJ1) $(OBJ2) $(OBJ3)
+	@rm -rf $(OBJ1) $(OBJ2) $(OBJ3)
 
 fclean: clean
 	rm -rf $(NAME)

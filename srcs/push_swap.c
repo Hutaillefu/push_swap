@@ -44,23 +44,12 @@ void	sort_3(t_list **list_to_sort, t_list **other)
 		cpt = process_command("rra", list_to_sort, other);
 }
 
-void	sort_4(t_list **list_to_sort, t_list **other)
+void	move_min_to_head(t_list **list_to_sort, t_list **other)
 {
 	int min = ft_lstgetmin(list_to_sort);
-	int min_index = ft_lstgetminindex(list_to_sort) + 1;
+	int min_index = ft_lstgetminindex(list_to_sort);
 	int len = ft_lstlen(list_to_sort);
 	char *cmd;
-
-	int canrotate = can_rotate(list_to_sort);
-
-	if (canrotate == 1)
-	{
-		printf("CAN ROTATE\n");
-		while ((*(int *)(*list_to_sort)->content) != min)
-			cpt = process_command("rra", list_to_sort, other);
-		return ;
-	}
-
 
 	if (min_index == 1)
 		cpt = process_command("sa", list_to_sort, other);
@@ -74,10 +63,47 @@ void	sort_4(t_list **list_to_sort, t_list **other)
 
 		while ((*(int *)(*list_to_sort)->content) != min)
 			cpt = process_command(cmd, list_to_sort, other);
+		ft_strdel(&cmd);
 	}
+}
+
+int	check_rotate(t_list **list_to_sort, t_list **other)
+{
+	if (can_rotate(list_to_sort))
+	{
+		printf("CAN ROTATE\n");
+		move_min_to_head(list_to_sort, other);
+		return (1);
+	}
+	return (0);
+
+}
+
+void	sort_4(t_list **list_to_sort, t_list **other)
+{
+
+	if (ft_lstgetmax(list_to_sort) ==(*(int *)(*list_to_sort)->content) && ft_lstsorted(&(*list_to_sort)->next))
+	{
+		cpt = process_command("ra", list_to_sort, other);
+		return ;
+	}
+
+	if (check_rotate(list_to_sort, other))
+		return ;
+
+	move_min_to_head(list_to_sort, other);
 
 	if (ft_lstsorted(list_to_sort))
 		return ;
+
+	
+	if (ft_lstlen(list_to_sort) >= 4 &&
+	    ft_lstgetmax(list_to_sort) == (*(int *)(*list_to_sort)->next->content) &&
+	    ft_lstgetmin(list_to_sort) == (*(int *)(*list_to_sort)->content) &&
+	    ft_lstsorted(&(*list_to_sort)->next->next)) // min max sorted
+	{
+		printf("OJGS\n");	
+	}
 
 	cpt = process_command("pb", list_to_sort, other);
 	sort_3(list_to_sort, other);
@@ -86,38 +112,41 @@ void	sort_4(t_list **list_to_sort, t_list **other)
 
 void	sort_n(t_list **list_to_sort, t_list **other)
 {
-	int min = ft_lstgetmin(list_to_sort);
-	int min_index = ft_lstgetminindex(list_to_sort) + 1;
-	int len = ft_lstlen(list_to_sort);
-	char *cmd;
-
-	printf("ESFSF %d\n", min_index);
-
-	int canrotate = can_rotate(list_to_sort);
-	//int canrotateindex = can_rotate_index(list_to_sort);
-
-	if (canrotate == 1)
+	if (ft_lstgetmax(list_to_sort) ==(*(int *)(*list_to_sort)->content) && ft_lstsorted(&(*list_to_sort)->next))
 	{
-		printf("CAN ROTATE\n");
-		while ((*(int *)(*list_to_sort)->content) != min)
-			cpt = process_command("rra", list_to_sort, other);
+		cpt = process_command("ra", list_to_sort, other);
 		return ;
 	}
+
 	
-	if (min_index == 1)
-		cpt = process_command("sa", list_to_sort, other);
-	else
+	if (ft_lstlen(list_to_sort) >= 4 &&
+	    ft_lstgetmax(list_to_sort) == (*(int *)(*list_to_sort)->next->content) &&
+	    ft_lstgetmin(list_to_sort) == (*(int *)(*list_to_sort)->content) &&
+	    ft_lstsorted(&(*list_to_sort)->next->next)) // min max sorted
 	{
-		if ((len - min_index + 1.0) > len / 2.0)
-			cmd = ft_strdup("ra");
-		else 
-		cmd = ft_strdup("rra");
-		while ((*(int *)(*list_to_sort)->content) != min)
-			cpt = process_command(cmd, list_to_sort, other);
+		cpt = process_command("sa", list_to_sort, other);
+		cpt = process_command("ra", list_to_sort, other);
+		return ;
 	}
+
+	if (check_rotate(list_to_sort, other))
+		return ;
+
+	move_min_to_head(list_to_sort, other);
 
 	if (ft_lstsorted(list_to_sort))
 		return ;
+
+	if (ft_lstlen(list_to_sort) >= 4 &&
+	    ft_lstgetmax(list_to_sort) == (*(int *)(*list_to_sort)->next->content) &&
+	    ft_lstgetmin(list_to_sort) == (*(int *)(*list_to_sort)->content) &&
+	    ft_lstsorted(&(*list_to_sort)->next->next)) // min max sorted
+	{
+		cpt = process_command("sa", list_to_sort, other);
+		cpt = process_command("ra", list_to_sort, other);
+		return ;
+	}
+
 
 	cpt = process_command("pb", list_to_sort, other);
 
