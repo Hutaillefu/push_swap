@@ -17,38 +17,44 @@
 
 //static int cpt = 0;
 
-int	ft_lstgetvalue(t_list **lst)
+// Retourne la valeur d'un ;aillon de la liste
+int ft_lstgetvalue(t_list **lst)
 {
 	return ((*(int *)(*lst)->content));
 }
 
-void	sort_2(t_list **lst_to_sort, t_list **other)
+void sort_2(t_list **lst_to_sort, t_list **other)
 {
 	process_command("sa", lst_to_sort, other, 1);
 }
 
-void	sort_3(t_list **list_to_sort, t_list **other)
+void sort_2_desc(t_list **lst_to_sort, t_list **other)
+{
+	process_command("sb", lst_to_sort, other, 1);
+}
+
+void sort_3_up(t_list **list_to_sort, t_list **other)
 {
 	int a = *((int *)(*list_to_sort)->content);
 	int b = *((int *)(*list_to_sort)->next->content);
 	int c = *((int *)(*list_to_sort)->next->next->content);
 
-	if (c > a && c > b)		// c = max
+	if (c > a && c > b) // c = max
 		process_command("sa", list_to_sort, other, 1);
-	else if (a < b && a < c)	// a = min
+	else if (a < b && a < c) // a = min
 	{
 		process_command("rra", list_to_sort, other, 1);
 		process_command("sa", list_to_sort, other, 1);
 	}
 
 	if (ft_lstsorted(list_to_sort))
-		return ;
+		return;
 
-	if (a > b && a > c)	// a = max
+	if (a > b && a > c) // a = max
 		process_command("ra", list_to_sort, other, 1);
 
 	if (ft_lstsorted(list_to_sort))
-		return ;
+		return;
 
 	if (c < a && c < b && a > b)
 		process_command("sa", list_to_sort, other, 1);
@@ -57,7 +63,39 @@ void	sort_3(t_list **list_to_sort, t_list **other)
 		process_command("rra", list_to_sort, other, 1);
 }
 
-void	move_min_to_head(t_list **list_to_sort, t_list **other)
+void sort_3_desc(t_list **list_to_sort, t_list **other)
+{
+	if (ft_lstinversed(other))
+		return;
+
+	int a = *((int *)(*other)->content);
+	int b = *((int *)(*other)->next->content);
+	int c = *((int *)(*other)->next->next->content);
+
+	if (c > a && c > b) // c = max
+	{
+		if (a < b)
+			process_command("sb", list_to_sort, other, 1);
+		process_command("rrb", list_to_sort, other, 1);
+	}
+	else if (c < b && c < a) // c = min
+	{
+		process_command("sb", list_to_sort, other, 1);
+	}
+
+	if (ft_lstinversed(other))
+		return;
+
+	if (a > b && a > c) // a = max
+	{
+		process_command("rrb", list_to_sort, other, 1);
+		process_command("sb", list_to_sort, other, 1);
+	}
+	else
+		process_command("rb", list_to_sort, other, 1);
+}
+
+void move_min_to_head(t_list **list_to_sort, t_list **other)
 {
 	int min = ft_lstgetmin(list_to_sort);
 	int min_index = ft_lstgetminindex(list_to_sort);
@@ -71,7 +109,7 @@ void	move_min_to_head(t_list **list_to_sort, t_list **other)
 
 		if ((len - min_index + 1.0) > len / 2.0)
 			cmd = ft_strdup("ra");
-		else 
+		else
 			cmd = ft_strdup("rra");
 
 		while ((*(int *)(*list_to_sort)->content) != min)
@@ -80,19 +118,17 @@ void	move_min_to_head(t_list **list_to_sort, t_list **other)
 	}
 }
 
-int	check_rotate(t_list **list_to_sort, t_list **other)
+int check_rotate(t_list **list_to_sort, t_list **other)
 {
 	if (can_rotate(list_to_sort))
 	{
-		//printf("CAN ROTATE\n");
 		move_min_to_head(list_to_sort, other);
 		return (1);
 	}
 	return (0);
-
 }
 
-void	sort_4(t_list **list_to_sort, t_list **other)
+void sort_4_up(t_list **list_to_sort, t_list **other)
 {
 	if (ft_lstlen(list_to_sort) >= 4 &&
 		ft_lstgetmax(list_to_sort) == (*(int *)(*list_to_sort)->next->content) &&
@@ -100,35 +136,38 @@ void	sort_4(t_list **list_to_sort, t_list **other)
 		ft_lstsorted(&(*list_to_sort)->next->next)) // min max sorted
 	{
 		process_command("sa", list_to_sort, other, 1);
-		process_command("ra", list_to_sort, other, 1);	
-		return ;
+		process_command("ra", list_to_sort, other, 1);
+		return;
 	}
 
-	if (ft_lstgetmax(list_to_sort) ==(*(int *)(*list_to_sort)->content) && ft_lstsorted(&(*list_to_sort)->next))
+	if (ft_lstgetmax(list_to_sort) == (*(int *)(*list_to_sort)->content) && ft_lstsorted(&(*list_to_sort)->next))
 	{
 		process_command("ra", list_to_sort, other, 1);
-		return ;
+		return;
 	}
 
 	if (check_rotate(list_to_sort, other))
-		return ;
+		return;
 
 	move_min_to_head(list_to_sort, other);
 
 	if (ft_lstsorted(list_to_sort))
-		return ;
-	
+		return;
+
 	process_command("pb", list_to_sort, other, 1);
-	sort_3(list_to_sort, other);
+	sort_3_up(list_to_sort, other);
 	process_command("pa", list_to_sort, other, 1);
 }
 
-void	sort_n(t_list **list_to_sort, t_list **other)
+void sort_n_up(t_list **list_to_sort, t_list **other)
 {
-	if (ft_lstgetmax(list_to_sort) ==(*(int *)(*list_to_sort)->content) && ft_lstsorted(&(*list_to_sort)->next)) // max sorted
+	if (!list_to_sort || !(*list_to_sort))
+		return;
+
+	if (ft_lstgetmax(list_to_sort) == (*(int *)(*list_to_sort)->content) && ft_lstsorted(&(*list_to_sort)->next)) // max sorted
 	{
 		process_command("ra", list_to_sort, other, 1);
-		return ;
+		return;
 	}
 
 	if (ft_lstlen(list_to_sort) >= 4 &&
@@ -138,16 +177,16 @@ void	sort_n(t_list **list_to_sort, t_list **other)
 	{
 		process_command("sa", list_to_sort, other, 1);
 		process_command("ra", list_to_sort, other, 1);
-		return ;
+		return;
 	}
 
 	if (check_rotate(list_to_sort, other))
-		return ;
+		return;
 
 	move_min_to_head(list_to_sort, other);
 
 	if (ft_lstsorted(list_to_sort))
-		return ;
+		return;
 
 	if (ft_lstlen(list_to_sort) >= 4 &&
 		ft_lstgetmax(list_to_sort) == (*(int *)(*list_to_sort)->next->content) &&
@@ -156,22 +195,175 @@ void	sort_n(t_list **list_to_sort, t_list **other)
 	{
 		process_command("sa", list_to_sort, other, 1);
 		process_command("ra", list_to_sort, other, 1);
-		return ;
+		return;
 	}
 
 	process_command("pb", list_to_sort, other, 1);
 
 	if (ft_lstlen(list_to_sort) == 4)
-		sort_4(list_to_sort, other);
-	else 
-		sort_n(list_to_sort, other);
+		sort_4_up(list_to_sort, other);
+	else
+		sort_n_up(list_to_sort, other);
+
 	process_command("pa", list_to_sort, other, 1);
 }
 
-int	main(int argc, char **argv)
+void sort_b_up(t_list **list_to_sort, t_list **other)
 {
-	t_list	*la = NULL;
-	t_list	*lb = NULL;
+	if (!other || !(*other))
+		return;
+
+	if (ft_lstgetmax(other) == (*(int *)(*other)->content) && ft_lstsorted(&(*other)->next)) // max sorted
+	{
+		process_command("rb", list_to_sort, other, 1);
+		return;
+	}
+
+	if (ft_lstlen(other) >= 4 &&
+		ft_lstgetmax(other) == (*(int *)(*other)->next->content) &&
+		ft_lstgetmin(other) == (*(int *)(*other)->content) &&
+		ft_lstsorted(&(*other)->next->next)) // min max sorted
+	{
+		process_command("sb", list_to_sort, other, 1);
+		process_command("rb", list_to_sort, other, 1);
+		return;
+	}
+
+	if (check_rotate(other, list_to_sort))
+		return;
+
+	move_min_to_head(other, list_to_sort);
+
+	if (ft_lstsorted(other))
+		return;
+
+	if (ft_lstlen(other) >= 4 &&
+		ft_lstgetmax(other) == (*(int *)(*other)->next->content) &&
+		ft_lstgetmin(other) == (*(int *)(*other)->content) &&
+		ft_lstsorted(&(*other)->next->next)) // min max sorted
+	{
+		process_command("sb", list_to_sort, other, 1);
+		process_command("rb", list_to_sort, other, 1);
+		return;
+	}
+
+	process_command("pa", list_to_sort, other, 1);
+
+	if (ft_lstlen(other) == 4)
+		sort_4_up(list_to_sort, other);
+	else
+		sort_b_up(list_to_sort, other);
+
+	process_command("pb", list_to_sort, other, 1);
+}
+
+void sort_n_desc(t_list **la, t_list **lb)
+{
+	if (ft_lstgetmin(lb) > ft_lstgetvalue(la))
+	{
+		process_command("pb", la, lb, 1);
+		process_command("rb", la, lb, 1);
+		return;
+	}
+	while (ft_lstgetvalue(lb) > ft_lstgetvalue(la))
+	{
+		process_command("rb", la, lb, 1);
+	}
+	process_command("pb", la, lb, 1);
+
+	while (!ft_lstinversed(lb))
+	{
+		process_command("rrb", la, lb, 1);
+	}
+
+	// if (ft_lstgetminindex(lb) == 0 && (*lb)->next && ft_lstinversed(&(*lb)->next))
+	// 	process_command("rb", la, lb, 1);
+
+	// process_command("rrb", la, lb, 1);
+	// process_command("pa", la, lb, 1);
+
+	// if (ft_lstlen(lb) == 3)
+	// 	sort_3_desc(la, lb);
+	// else
+	// 	sort_n_desc(la, lb);
+	// process_command("pb", la, lb, 1);
+	// process_command("rb", la, lb, 1);
+}
+
+// Retourne vrai si un element de la liste est inferieur a value
+int ft_lstcontainsmin(t_list **lst, int value)
+{
+	t_list *it;
+
+	if (!lst || !(*lst))
+		return (0);
+	it = *lst;
+	while (it)
+	{
+		if (ft_lstgetvalue(&it) < value)
+			return (1);
+		it = it->next;
+	}
+	return (0);
+}
+
+void sort_max(t_list **la, t_list **lb)
+{
+	int max = ft_lstgetvalue(la);
+
+	process_command("pb", la, lb, 1);
+
+	while (ft_lstcontainsmin(la, max))
+	{
+		t_list *last = ft_lstgetindex(la, ft_lstlen(la) - 1);
+
+		if (ft_lstgetvalue(la) < max)
+		{
+			process_command("pb", la, lb, 1);
+			sort_b_up(la, lb);
+		}
+		else if ((*la)->next && ft_lstgetvalue(&(*la)->next) < ft_lstgetvalue(la))
+			process_command("sa", la, lb, 1);
+		else if (ft_lstgetvalue(&last) < ft_lstgetvalue(la) && ft_lstgetvalue(&last) < max)
+			process_command("rra", la, lb, 1);
+		else
+			process_command("ra", la, lb, 1);
+	}
+
+	sort_n_up(la, lb);
+
+	if (!ft_lstsorted(la) && ft_lstlen(la) > 0)
+	{
+		display("la :", la);
+		printf("STOP la\n");
+		return;
+	}
+
+	if (!ft_lstsorted(lb))
+	{
+		display("lb :", lb);
+		printf("STOP lb\n");
+		return;
+	}
+
+	// display("la : ", la);
+	// display("lb : ", lb);
+	// printf("\n");
+
+	while (*lb)
+	{
+		process_command("pa", la, lb, 1);
+	}
+
+	// display("la : ", la);
+	// display("lb : ", lb);
+	// printf("\n");
+}
+
+int main(int argc, char **argv)
+{
+	t_list *la = NULL;
+	t_list *lb = NULL;
 
 	if (argc == 1)
 		return (0);
@@ -189,24 +381,21 @@ int	main(int argc, char **argv)
 		argv++;
 	}
 
-	//display("la : ", &la);
-
 	if (ft_lstsorted(&la))
 		return (0);
 
 	int len = ft_lstlen(&la);
-	//printf("len : %d\n", len);
 
 	if (len == 2)
 		sort_2(&la, &lb);
 	else if (len == 3)
-		sort_3(&la, &lb);
+		sort_3_up(&la, &lb);
 	else if (len == 4)
-		sort_4(&la, &lb);
-	else 
-		sort_n(&la, &lb);
-
-	//printf("NB ACTIONS : %d\n", cpt); 
+		sort_4_up(&la, &lb);
+	else// if (len < 50)
+		sort_n_up(&la, &lb);
+	//else
+		//sort_max(&la, &lb);
 
 	return (0);
 }

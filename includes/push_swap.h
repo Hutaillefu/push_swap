@@ -32,4 +32,5 @@ t_list	*duplicate(t_list **lst);
 int		ft_lstlen(t_list **lst);
 int     process_param(t_list **lst, char *param);
 int		process_command(char *command, t_list **la, t_list **lb, int display);
+int		ft_lstinversed(t_list **list);
 #endif
