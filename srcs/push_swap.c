@@ -15,12 +15,122 @@
 
 #include <stdio.h>
 
-//static int cpt = 0;
+void ft_display_array(int *tab, int len)
+{
+	int i;
+
+	i = 0;
+	while (i < len)
+	{
+		printf("%d, ", tab[i]);
+		i++;
+	}
+	printf("\n");
+}
 
 // Retourne la valeur d'un ;aillon de la liste
 int ft_lstgetvalue(t_list **lst)
 {
 	return ((*(int *)(*lst)->content));
+}
+
+void ft_sort_tab(int *tab, int len)
+{
+	int i;
+	int tmp;
+
+	if (!tab)
+		return;
+	i = 0;
+	while (i + 1 < len)
+	{
+		if (tab[i] > tab[i + 1])
+		{
+			tmp = tab[i];
+			tab[i] = tab[i + 1];
+			tab[i + 1] = tmp;
+			i = 0;
+			continue;
+		}
+		i++;
+	}
+}
+
+void ft_sort_tab_inv(int *tab, int len)
+{
+	int i;
+	int tmp;
+
+	if (!tab)
+		return;
+	i = 0;
+	while (i + 1 < len)
+	{
+		if (tab[i] < tab[i + 1])
+		{
+			tmp = tab[i];
+			tab[i] = tab[i + 1];
+			tab[i + 1] = tmp;
+			i = 0;
+			continue;
+		}
+		i++;
+	}
+}
+
+int *ft_lst_to_array(t_list **lst)
+{
+	int *tab;
+	t_list *it;
+	int i;
+
+	if (!lst)
+		return (NULL);
+	tab = (int *)malloc(sizeof(int) * ft_lstlen(lst));
+	it = *lst;
+	i = 0;
+	while (it)
+	{
+		tab[i] = ft_lstgetvalue(&it);
+		i++;
+		it = it->next;
+	}
+
+	return (tab);
+}
+
+int *ft_lst_to_array_inv(t_list **lst)
+{
+	int *tab;
+
+	if (!lst || !(*lst))
+		return (NULL);
+	tab = ft_lst_to_array(lst);
+
+	ft_sort_tab_inv(tab, ft_lstlen(lst));
+	return (tab);
+}
+
+int ft_get_median(t_list **lst)
+{
+	int len;
+	int *tab;
+	int res;
+
+	if (!lst || !(*lst))
+		return (-1);
+	len = ft_lstlen(lst);
+	tab = ft_lst_to_array(lst);
+
+	ft_sort_tab(tab, len);
+
+	if (len % 2 != 0)
+		res = tab[len / 2];
+	else
+		res = tab[(len + 1) / 2];
+	free(tab);
+	tab = NULL;
+	return (res);
 }
 
 void sort_2(t_list **lst_to_sort, t_list **other)
@@ -93,6 +203,78 @@ void sort_3_desc(t_list **list_to_sort, t_list **other)
 	}
 	else
 		process_command("rb", list_to_sort, other, 1);
+}
+
+int lst_get_index(t_list **lst, int value)
+{
+	t_list *it;
+	int i;
+	if (!lst || !(*lst))
+		return (-1);
+	i = 0;
+	it = *lst;
+	while (it)
+	{
+		if (ft_lstgetvalue(&it) == value)
+			return (i);
+		it = it->next;
+		i++;
+	}
+	return (-1);
+}
+
+void move_median_to_head(t_list **list_to_sort, t_list **other)
+{
+	int median = ft_get_median(list_to_sort);
+	int min_index = lst_get_index(list_to_sort, median);
+	int len = ft_lstlen(list_to_sort);
+	char *cmd;
+
+	if (min_index == 1)
+	{
+		if (ft_lstgetvalue(list_to_sort) < median)
+			process_command("pb", list_to_sort, other, 1);
+		else
+			process_command("sa", list_to_sort, other, 1);
+	}
+	else
+	{
+		if ((len - min_index + 1.0) > len / 2.0)
+			cmd = ft_strdup("ra");
+		else
+			cmd = ft_strdup("rra");
+
+		while ((*(int *)(*list_to_sort)->content) != median)
+		{
+			if (ft_lstgetvalue(list_to_sort) < median)
+				process_command("pb", list_to_sort, other, 1);
+			else
+				process_command(cmd, list_to_sort, other, 1);
+		}
+		ft_strdel(&cmd);
+	}
+}
+
+void move_max_to_head(t_list **list_to_sort, t_list **other)
+{
+	int max = ft_lstgetmax(other);
+	int min_index = lst_get_index(other, max);
+	int len = ft_lstlen(other);
+	char *cmd;
+
+	if (min_index == 1)
+		process_command("sb", list_to_sort, other, 1);
+	else
+	{
+		if ((len - min_index + 1.0) > len / 2.0)
+			cmd = ft_strdup("rb");
+		else
+			cmd = ft_strdup("rrb");
+
+		while ((*(int *)(*other)->content) != max)
+			process_command(cmd, list_to_sort, other, 1);
+		ft_strdel(&cmd);
+	}
 }
 
 void move_min_to_head(t_list **list_to_sort, t_list **other)
@@ -206,6 +388,11 @@ void sort_n_up(t_list **list_to_sort, t_list **other)
 		sort_n_up(list_to_sort, other);
 
 	process_command("pa", list_to_sort, other, 1);
+
+	// sleep(1);
+	// display("la : ", list_to_sort);
+	// display("lb : ", other);
+	// printf("\n");
 }
 
 void sort_b_up(t_list **list_to_sort, t_list **other)
@@ -259,35 +446,35 @@ void sort_b_up(t_list **list_to_sort, t_list **other)
 
 void sort_n_desc(t_list **la, t_list **lb)
 {
-	if (ft_lstgetmin(lb) > ft_lstgetvalue(la))
-	{
-		process_command("pb", la, lb, 1);
-		process_command("rb", la, lb, 1);
-		return;
-	}
-	while (ft_lstgetvalue(lb) > ft_lstgetvalue(la))
-	{
-		process_command("rb", la, lb, 1);
-	}
-	process_command("pb", la, lb, 1);
-
-	while (!ft_lstinversed(lb))
-	{
-		process_command("rrb", la, lb, 1);
-	}
-
-	// if (ft_lstgetminindex(lb) == 0 && (*lb)->next && ft_lstinversed(&(*lb)->next))
+	// if (ft_lstgetmin(lb) > ft_lstgetvalue(la))
+	// {
+	// 	process_command("pb", la, lb, 1);
 	// 	process_command("rb", la, lb, 1);
-
-	// process_command("rrb", la, lb, 1);
-	// process_command("pa", la, lb, 1);
-
-	// if (ft_lstlen(lb) == 3)
-	// 	sort_3_desc(la, lb);
-	// else
-	// 	sort_n_desc(la, lb);
+	// 	return;
+	// }
+	// while (ft_lstgetvalue(lb) > ft_lstgetvalue(la))
+	// {
+	// 	process_command("rb", la, lb, 1);
+	// }
 	// process_command("pb", la, lb, 1);
-	// process_command("rb", la, lb, 1);
+
+	// while (!ft_lstinversed(lb))
+	// {
+	// 	process_command("rrb", la, lb, 1);
+	// }
+
+	if (ft_lstgetminindex(lb) == 0 && (*lb)->next && ft_lstinversed(&(*lb)->next))
+		process_command("rb", la, lb, 1);
+
+	process_command("rrb", la, lb, 1);
+	process_command("pa", la, lb, 1);
+
+	if (ft_lstlen(lb) == 3)
+		sort_3_desc(la, lb);
+	else
+		sort_n_desc(la, lb);
+	process_command("pb", la, lb, 1);
+	process_command("rb", la, lb, 1);
 }
 
 // Retourne vrai si un element de la liste est inferieur a value
@@ -309,55 +496,17 @@ int ft_lstcontainsmin(t_list **lst, int value)
 
 void sort_max(t_list **la, t_list **lb)
 {
-	int max = ft_lstgetvalue(la);
-
-	process_command("pb", la, lb, 1);
-
-	while (ft_lstcontainsmin(la, max))
+	while (la && (*la))
 	{
-		t_list *last = ft_lstgetindex(la, ft_lstlen(la) - 1);
-
-		if (ft_lstgetvalue(la) < max)
-		{
-			process_command("pb", la, lb, 1);
-			sort_b_up(la, lb);
-		}
-		else if ((*la)->next && ft_lstgetvalue(&(*la)->next) < ft_lstgetvalue(la))
-			process_command("sa", la, lb, 1);
-		else if (ft_lstgetvalue(&last) < ft_lstgetvalue(la) && ft_lstgetvalue(&last) < max)
-			process_command("rra", la, lb, 1);
-		else
-			process_command("ra", la, lb, 1);
+		move_median_to_head(la, lb);
+		process_command("pb", la, lb, 1);
 	}
 
-	sort_n_up(la, lb);
-
-	if (!ft_lstsorted(la) && ft_lstlen(la) > 0)
+	while (ft_lstlen(lb) > 0)
 	{
-		display("la :", la);
-		printf("STOP la\n");
-		return;
-	}
-
-	if (!ft_lstsorted(lb))
-	{
-		display("lb :", lb);
-		printf("STOP lb\n");
-		return;
-	}
-
-	// display("la : ", la);
-	// display("lb : ", lb);
-	// printf("\n");
-
-	while (*lb)
-	{
+		move_max_to_head(la, lb);
 		process_command("pa", la, lb, 1);
 	}
-
-	// display("la : ", la);
-	// display("lb : ", lb);
-	// printf("\n");
 }
 
 int main(int argc, char **argv)
@@ -392,10 +541,10 @@ int main(int argc, char **argv)
 		sort_3_up(&la, &lb);
 	else if (len == 4)
 		sort_4_up(&la, &lb);
-	else// if (len < 50)
-		sort_n_up(&la, &lb);
-	//else
-		//sort_max(&la, &lb);
+	//	else if (len < 20)
+	//	sort_n_up(&la, &lb);
+	else
+		sort_max(&la, &lb);
 
 	return (0);
 }
