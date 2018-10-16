@@ -15,12 +15,11 @@
 
 t_list	*ft_lstgetindex(t_list **lst, int index)
 {
-	int i;
+	int		i;
 	t_list	*iterator;
 
 	if (index < 0 || !lst || !(*lst))
 		return (NULL);
-
 	i = 0;
 	iterator = *lst;
 	while (i != index && iterator->next)

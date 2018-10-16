@@ -1,13 +1,14 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: htaillef <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/07 16:35:11 by htaillef          #+#    #+#             */
-/*   Updated: 2017/11/10 18:10:18 by htaillef         ###   ########.fr       */
-/*                                                                            */
+/*                                                          LE - /            */
+/*                                                              /             */
+/*   libft.h                                          .::    .:/ .      .::   */
+/*                                                 +:+:+   +:    +:  +:+:+    */
+/*   By: htaillef <marvin@le-101.fr>                +:+   +:    +:    +:+     */
+/*                                                 #+#   #+    #+    #+#      */
+/*   Created: 2018/10/16 18:09:54 by htaillef     #+#   ##    ##    #+#       */
+/*   Updated: 2018/10/16 18:09:56 by htaillef    ###    #+. /#+    ###.fr     */
+/*                                                         /                  */
+/*                                                        /                   */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
@@ -92,7 +93,7 @@ t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 
 # define BUFF_SIZE 32
 
-int		get_next_line(const int fd, char **line);
+int					get_next_line(const int fd, char **line);
 
-t_list		*ft_lstgetindex(t_list **lst, int index);
+t_list				*ft_lstgetindex(t_list **lst, int index);
 #endif

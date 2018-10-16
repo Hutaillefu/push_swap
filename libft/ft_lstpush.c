@@ -19,9 +19,8 @@ void	ft_lstpush(t_list **alst, t_list *new)
 {
 	t_list *iterator;
 
-    if (!alst || !new)
-    return;
-
+	if (!alst || !new)
+		return ;
 	if (!(*alst))
 	{
 		*alst = new;
@@ -29,12 +28,10 @@ void	ft_lstpush(t_list **alst, t_list *new)
 	}
 	else
 	{
-        iterator = *alst;
+		iterator = *alst;
 		while (iterator->next)
-        {
-            iterator = iterator->next;
-        }
-        new->next = NULL;
-        iterator->next = new;
+			iterator = iterator->next;
+		new->next = NULL;
+		iterator->next = new;
 	}
 }
