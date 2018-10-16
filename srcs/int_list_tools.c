@@ -84,8 +84,9 @@ int			ft_get_median(t_list **lst)
 
 int			lst_get_index(t_list **lst, int value)
 {
-	t_list *it;
-	int i;
+	t_list	*it;
+	int		i;
+
 	if (!lst || !(*lst))
 		return (-1);
 	i = 0;
