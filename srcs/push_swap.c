@@ -124,10 +124,12 @@ int ft_get_median(t_list **lst)
 
 	ft_sort_tab(tab, len);
 
+	if (len == 2)
+		return tab[0] < tab[1] ? tab[0] : tab[1];
 	if (len % 2 != 0)
-		res = tab[len / 2];
+		res = tab[len / 10];
 	else
-		res = tab[(len + 1) / 2];
+		res = tab[(len + 1) / 10];
 	free(tab);
 	tab = NULL;
 	return (res);
@@ -233,7 +235,11 @@ void move_median_to_head(t_list **list_to_sort, t_list **other)
 	if (min_index == 1)
 	{
 		if (ft_lstgetvalue(list_to_sort) < median)
+		{
 			process_command("pb", list_to_sort, other, 1);
+			//if (ft_lstgetvalue(other) < *((int *)ft_lstgetindex(other, ft_lstlen(other) - 1)->content))
+			//process_command("rb", list_to_sort, other, 1);
+		}
 		else
 			process_command("sa", list_to_sort, other, 1);
 	}
@@ -247,7 +253,11 @@ void move_median_to_head(t_list **list_to_sort, t_list **other)
 		while ((*(int *)(*list_to_sort)->content) != median)
 		{
 			if (ft_lstgetvalue(list_to_sort) < median)
+			{
 				process_command("pb", list_to_sort, other, 1);
+				//if (ft_lstgetvalue(other) < *((int *)ft_lstgetindex(other, ft_lstlen(other) - 1)->content))
+				//process_command("rb", list_to_sort, other, 1);
+			}
 			else
 				process_command(cmd, list_to_sort, other, 1);
 		}
@@ -496,17 +506,23 @@ int ft_lstcontainsmin(t_list **lst, int value)
 
 void sort_max(t_list **la, t_list **lb)
 {
-	while (la && (*la))
+	while (la && (*la) && ft_lstlen(la) > 1)
 	{
 		move_median_to_head(la, lb);
 		process_command("pb", la, lb, 1);
 	}
+
+	//display("la : ", la);
+	//display("lb : ", lb);
 
 	while (ft_lstlen(lb) > 0)
 	{
 		move_max_to_head(la, lb);
 		process_command("pa", la, lb, 1);
 	}
+
+	// display("la : ", la);
+	// display("lb : ", lb);
 }
 
 int main(int argc, char **argv)
@@ -541,8 +557,8 @@ int main(int argc, char **argv)
 		sort_3_up(&la, &lb);
 	else if (len == 4)
 		sort_4_up(&la, &lb);
-	//	else if (len < 20)
-	//	sort_n_up(&la, &lb);
+	else if (len < 20)
+		sort_n_up(&la, &lb);
 	else
 		sort_max(&la, &lb);
 

@@ -20,7 +20,7 @@ int		init_param(t_list **la, char **argv)
 		if (!process_param(la, *argv))
 		{
 			ft_putstr_fd("Error\n", 2);
-			//free la
+			free_list(la);
 			return (0);
 		}
 		argv++;
@@ -45,7 +45,7 @@ int		main(int argc, char **argv)
 		if (!process_command(line, &la, &lb, 0))
 		{
 			ft_putstr_fd("Error\n", 2);
-			//free la
+			free_list(&la);
 			return (0);
 		}
 	}

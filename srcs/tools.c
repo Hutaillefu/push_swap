@@ -15,10 +15,25 @@
 
 #include <stdio.h>
 
-t_list		*duplicate(t_list **lst)
+void free_maillon(void *content, size_t size)
 {
-	t_list	*list = NULL;
-	t_list	*it;
+	(void)size;
+	free(content);
+	content = NULL;
+}
+
+void free_list(t_list **lst)
+{
+	if (!lst || !(*lst))
+		return;
+	ft_lstdel(lst, free_maillon);
+	lst = NULL;
+}
+
+t_list *duplicate(t_list **lst)
+{
+	t_list *list = NULL;
+	t_list *it;
 
 	if (!lst || !(*lst))
 		return (NULL);
@@ -32,11 +47,11 @@ t_list		*duplicate(t_list **lst)
 	return list;
 }
 
-void	display(const char *tag, t_list **lst)
+void display(const char *tag, t_list **lst)
 {
 	t_list *it;
 	if (!lst)
-		return ;
+		return;
 	printf("%s", tag);
 	if (!(*lst))
 		printf("----------\n");
@@ -49,7 +64,7 @@ void	display(const char *tag, t_list **lst)
 	printf("\n");
 }
 
-int		ft_lstlen(t_list **lst)
+int ft_lstlen(t_list **lst)
 {
 	t_list *it;
 	int res;
@@ -65,14 +80,14 @@ int		ft_lstlen(t_list **lst)
 	return (res);
 }
 
-int		ft_lstgetmax(t_list **lst)
+int ft_lstgetmax(t_list **lst)
 {
-	t_list	*it;
-	int	max;
+	t_list *it;
+	int max;
 
 	if (!lst || !(*lst))
 		return (0);
-	max =(*(int *) (*lst)->content);
+	max = (*(int *)(*lst)->content);
 	it = (*lst)->next;
 	while (it)
 	{
@@ -83,14 +98,14 @@ int		ft_lstgetmax(t_list **lst)
 	return (max);
 }
 
-int		ft_lstgetmin(t_list **lst)
+int ft_lstgetmin(t_list **lst)
 {
-	t_list	*it;
-	int	min;
+	t_list *it;
+	int min;
 
 	if (!lst || !(*lst))
 		return (0);
-	min =(*(int *) (*lst)->content);
+	min = (*(int *)(*lst)->content);
 	it = (*lst)->next;
 	while (it)
 	{
@@ -101,16 +116,16 @@ int		ft_lstgetmin(t_list **lst)
 	return (min);
 }
 
-int		ft_lstgetminindex(t_list **lst)
+int ft_lstgetminindex(t_list **lst)
 {
-	t_list	*it;
-	int	minindex;
-	int	min;
-	int	index;
+	t_list *it;
+	int minindex;
+	int min;
+	int index;
 
 	if (!lst || !(*lst))
 		return (-1);
-	min =(*(int *) (*lst)->content);
+	min = (*(int *)(*lst)->content);
 	minindex = 0;
 	index = 0;
 	it = *lst;
@@ -127,9 +142,9 @@ int		ft_lstgetminindex(t_list **lst)
 	return (minindex);
 }
 
-int		can_rotate(t_list **lst)
+int can_rotate(t_list **lst)
 {
-	t_list	*it;
+	t_list *it;
 	int nb = 0;
 	int first = (*(int *)(*lst)->content);
 	it = *lst;
@@ -139,7 +154,7 @@ int		can_rotate(t_list **lst)
 		{
 			if (nb == 1)
 				return (0);
-			if (it->next->next != NULL && (*(int *)it->next->content) < first )
+			if (it->next->next != NULL && (*(int *)it->next->content) < first)
 				nb++;
 		}
 		else if (nb == 1)
@@ -149,9 +164,9 @@ int		can_rotate(t_list **lst)
 	return nb;
 }
 
-int		can_rotate_index(t_list **lst)
+int can_rotate_index(t_list **lst)
 {
-	t_list	*it;
+	t_list *it;
 	int nb = 0;
 	int index = 0;
 	int curr_index = 0;
@@ -170,14 +185,12 @@ int		can_rotate_index(t_list **lst)
 	return curr_index;
 }
 
-
-int		ft_lstsorted(t_list **list)
+int ft_lstsorted(t_list **list)
 {
-	t_list	*it;
+	t_list *it;
 
 	if (!list || !(*list))
 		return (0);
-
 	it = *list;
 	while (it && it->next)
 	{
@@ -188,9 +201,9 @@ int		ft_lstsorted(t_list **list)
 	return (1);
 }
 
-int		ft_lstinversed(t_list **list)
+int ft_lstinversed(t_list **list)
 {
-	t_list	*it;
+	t_list *it;
 
 	if (!list || !(*list))
 		return (0);
@@ -205,10 +218,10 @@ int		ft_lstinversed(t_list **list)
 	return (1);
 }
 
-int		ft_lstvaluebreak(t_list **list)
+int ft_lstvaluebreak(t_list **list)
 {
-	t_list	*it;
-//	int res = 0;
+	t_list *it;
+	//	int res = 0;
 
 	if (!list || !(*list))
 		return (0);
@@ -221,12 +234,11 @@ int		ft_lstvaluebreak(t_list **list)
 		it = it->next;
 	}
 	return (1);
-
 }
 
-int		ft_lstdoublon(t_list **lst, int value)
+int ft_lstdoublon(t_list **lst, int value)
 {
-	t_list	*it;
+	t_list *it;
 	if (!lst || !(*lst))
 		return (0);
 	it = *lst;
@@ -239,7 +251,7 @@ int		ft_lstdoublon(t_list **lst, int value)
 	return (0);
 }
 
-int		process_param(t_list **list, char *param)
+int process_param(t_list **list, char *param)
 {
 	long value;
 
@@ -248,18 +260,16 @@ int		process_param(t_list **list, char *param)
 	value = ft_atoi(param);
 	if (value > 2147483647 || (value == 0 && ft_strcmp(param, "0") != 0) || ft_lstdoublon(list, value))
 		return (0);
-	
+
 	ft_lstpush(list, ft_lstnew(&value, sizeof(value)));
 	return (1);
 }
 
-static int cpt = 0;
-
-int	process_command(char *command, t_list **la, t_list **lb, int display)
+int process_command(char *command, t_list **la, t_list **lb, int display)
 {
 	if (!command || !la || !lb)
 		return 0;
-		
+
 	if (ft_strcmp(command, "sa") == 0)
 		swap_two_first(la);
 	else if (ft_strcmp(command, "sb") == 0)
@@ -293,15 +303,8 @@ int	process_command(char *command, t_list **la, t_list **lb, int display)
 	}
 	else
 		return (0);
-	
+
 	if (display)
 		printf("%s\n", command);
-
-	/*display("la : ", la);
-	display("lb : ", lb);
-	printf("\n");*/
-	
-	cpt++;
 	return (1);
-
 }
