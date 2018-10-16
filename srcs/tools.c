@@ -64,22 +64,6 @@ void display(const char *tag, t_list **lst)
 	printf("\n");
 }
 
-int ft_lstlen(t_list **lst)
-{
-	t_list *it;
-	int res;
-	if (!lst || !(*lst))
-		return (0);
-	res = 1;
-	it = *lst;
-	while (it->next)
-	{
-		it = it->next;
-		res++;
-	}
-	return (res);
-}
-
 int ft_lstgetmax(t_list **lst)
 {
 	t_list *it;

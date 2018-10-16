@@ -76,7 +76,8 @@ PART3 = ft_lstnew.c    \
 		ft_lstiter.c   \
 		ft_lstmap.c	\
 		get_next_line.c \
-		ft_lstgetindex.c
+		ft_lstgetindex.c \
+		ft_lstlen.c
 
 FLAGS = -Wall -Wextra -Werror
 
