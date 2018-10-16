@@ -24,9 +24,9 @@ void sort_3(t_list **list_to_sort, t_list **other)
 	int b = *((int *)(*list_to_sort)->next->content);
 	int c = *((int *)(*list_to_sort)->next->next->content);
 
-	if (c > a && c > b) // c = max
+	if (c > a && c > b)
 		process_command("sa", list_to_sort, other, 1);
-	else if (a < b && a < c) // a = min
+	else if (a < b && a < c)
 	{
 		process_command("rra", list_to_sort, other, 1);
 		process_command("sa", list_to_sort, other, 1);
@@ -35,7 +35,7 @@ void sort_3(t_list **list_to_sort, t_list **other)
 	if (ft_lstsorted(list_to_sort))
 		return;
 
-	if (a > b && a > c) // a = max
+	if (a > b && a > c)
 		process_command("ra", list_to_sort, other, 1);
 
 	if (ft_lstsorted(list_to_sort))
@@ -137,9 +137,6 @@ void sort_n(t_list **list_to_sort, t_list **other)
 
 	process_command("pa", list_to_sort, other, 1);
 
-	// sleep(1);
-	// display("la : ", list_to_sort);
-	// display("lb : ", other);
 }
 
 void sort_max(t_list **la, t_list **lb)

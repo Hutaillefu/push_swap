@@ -30,23 +30,6 @@ void free_list(t_list **lst)
 	lst = NULL;
 }
 
-t_list *duplicate(t_list **lst)
-{
-	t_list *list = NULL;
-	t_list *it;
-
-	if (!lst || !(*lst))
-		return (NULL);
-	it = *lst;
-	while (it)
-	{
-		int c;
-		c = (*(int *)it->content);
-		ft_lstpush(&list, ft_lstnew(&c, sizeof(c)));
-	}
-	return list;
-}
-
 void display(const char *tag, t_list **lst)
 {
 	t_list *it;
@@ -148,68 +131,12 @@ int can_rotate(t_list **lst)
 	return nb;
 }
 
-int can_rotate_index(t_list **lst)
-{
-	t_list *it;
-	int nb = 0;
-	int index = 0;
-	int curr_index = 0;
-
-	it = *lst;
-	while (it && it->next)
-	{
-		if ((*(int *)it->next->content) < (*(int *)it->content))
-		{
-			curr_index = index;
-			nb++;
-		}
-		index++;
-		it = it->next;
-	}
-	return curr_index;
-}
-
 int ft_lstsorted(t_list **list)
 {
 	t_list *it;
 
 	if (!list || !(*list))
 		return (0);
-	it = *list;
-	while (it && it->next)
-	{
-		if ((*(int *)it->next->content) < (*(int *)it->content))
-			return (0);
-		it = it->next;
-	}
-	return (1);
-}
-
-int ft_lstinversed(t_list **list)
-{
-	t_list *it;
-
-	if (!list || !(*list))
-		return (0);
-
-	it = *list;
-	while (it && it->next)
-	{
-		if ((*(int *)it->next->content) > (*(int *)it->content))
-			return (0);
-		it = it->next;
-	}
-	return (1);
-}
-
-int ft_lstvaluebreak(t_list **list)
-{
-	t_list *it;
-	//	int res = 0;
-
-	if (!list || !(*list))
-		return (0);
-
 	it = *list;
 	while (it && it->next)
 	{
