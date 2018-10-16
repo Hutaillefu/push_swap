@@ -34,4 +34,6 @@ int     process_param(t_list **lst, char *param);
 int		process_command(char *command, t_list **la, t_list **lb, int display);
 int		ft_lstinversed(t_list **list);
 void	free_list(t_list **lst);
+int		ft_lstgetvalue(t_list **lst);
+int		ft_get_median(t_list **lst);
 #endif

@@ -1,0 +1,83 @@
+/* ************************************************************************** */
+/*                                                          LE - /            */
+/*                                                              /             */
+/*   int_list_tools.c                                 .::    .:/ .      .::   */
+/*                                                 +:+:+   +:    +:  +:+:+    */
+/*   By: htaillef <marvin@le-101.fr>                +:+   +:    +:    +:+     */
+/*                                                 #+#   #+    #+    #+#      */
+/*   Created: 2018/10/16 19:31:44 by htaillef     #+#   ##    ##    #+#       */
+/*   Updated: 2018/10/16 19:31:46 by htaillef    ###    #+. /#+    ###.fr     */
+/*                                                         /                  */
+/*                                                        /                   */
+/* ************************************************************************** */
+
+#include "push_swap.h"
+
+static void	ft_sort_tab(int *tab, int len)
+{
+	int	i;
+	int	tmp;
+
+	if (!tab)
+		return ;
+	i = 0;
+	while (i + 1 < len)
+	{
+		if (tab[i] > tab[i + 1])
+		{
+			tmp = tab[i];
+			tab[i] = tab[i + 1];
+			tab[i + 1] = tmp;
+			i = 0;
+			continue;
+		}
+		i++;
+	}
+}
+
+int			ft_lstgetvalue(t_list **lst)
+{
+	return ((*(int *)(*lst)->content));
+}
+
+static int	*ft_lst_to_array(t_list **lst)
+{
+	int		*tab;
+	t_list	*it;
+	int		i;
+
+	if (!lst)
+		return (NULL);
+	tab = (int *)malloc(sizeof(int) * ft_lstlen(lst));
+	it = *lst;
+	i = 0;
+	while (it)
+	{
+		tab[i] = ft_lstgetvalue(&it);
+		i++;
+		it = it->next;
+	}
+	return (tab);
+}
+
+int			ft_get_median(t_list **lst)
+{
+	int len;
+	int *tab;
+	int res;
+
+	if (!lst || !(*lst))
+		return (-1);
+	len = ft_lstlen(lst);
+	tab = ft_lst_to_array(lst);
+	ft_sort_tab(tab, len);
+	if (len == 2)
+		return (tab[0] < tab[1] ? tab[0] : tab[1]);
+	if (len % 2 != 0)
+		res = tab[len / 10];
+	else
+		res = tab[(len + 1) / 10];
+	free(tab);
+	tab = NULL;
+	return (res);
+}
