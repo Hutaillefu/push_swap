@@ -31,16 +31,12 @@ void sort_3(t_list **list_to_sort, t_list **other)
 		process_command("rra", list_to_sort, other, 1);
 		process_command("sa", list_to_sort, other, 1);
 	}
-
 	if (ft_lstsorted(list_to_sort))
 		return;
-
 	if (a > b && a > c)
 		process_command("ra", list_to_sort, other, 1);
-
 	if (ft_lstsorted(list_to_sort))
 		return;
-
 	if (c < a && c < b && a > b)
 		process_command("sa", list_to_sort, other, 1);
 

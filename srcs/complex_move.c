@@ -21,7 +21,7 @@ void		move_min_to_head(t_list **la, t_list **lb)
 	char	*cmd;
 
 	min = ft_lstgetmin(la);
-	min_index = ft_lstgetminindex(la);
+	min_index = lst_get_index(la, min);
 	len = ft_lstlen(la);
 	if (min_index == 1)
 		process_command("sa", la, lb, 1);

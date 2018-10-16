@@ -25,7 +25,6 @@ void	display(const char *tag, t_list **list);
 int		ft_lstsorted(t_list **lst);
 int		ft_lstgetmax(t_list **lst);
 int		ft_lstgetmin(t_list **lst);
-int		ft_lstgetminindex(t_list **lst);
 int		can_rotate(t_list **lst);
 int		can_rotate_index(t_list **lst);
 t_list	*duplicate(t_list **lst);
