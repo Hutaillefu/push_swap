@@ -36,4 +36,8 @@ int		ft_lstinversed(t_list **list);
 void	free_list(t_list **lst);
 int		ft_lstgetvalue(t_list **lst);
 int		ft_get_median(t_list **lst);
+int		lst_get_index(t_list **lst, int value);
+void    move_min_to_head(t_list **la, t_list **lb);
+void    move_max_to_head(t_list **la, t_list **lb);
+void    move_median_to_head(t_list **la, t_list **lb);
 #endif

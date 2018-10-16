@@ -81,3 +81,21 @@ int			ft_get_median(t_list **lst)
 	tab = NULL;
 	return (res);
 }
+
+int			lst_get_index(t_list **lst, int value)
+{
+	t_list *it;
+	int i;
+	if (!lst || !(*lst))
+		return (-1);
+	i = 0;
+	it = *lst;
+	while (it)
+	{
+		if (ft_lstgetvalue(&it) == value)
+			return (i);
+		it = it->next;
+		i++;
+	}
+	return (-1);
+}
