@@ -76,7 +76,8 @@ int		ft_lstdoublon(t_list **lst, int value)
 
 int		process_param(t_list **list, char *param)
 {
-	long value;
+	long 	value;
+	t_list	*tmp;
 
 	if (!list || !param)
 		return (0);
@@ -84,7 +85,9 @@ int		process_param(t_list **list, char *param)
 	if (value > 2147483647 || (value == 0 && ft_strcmp(param, "0") != 0) ||
 	ft_lstdoublon(list, value))
 		return (0);
-	ft_lstpush(list, ft_lstnew(&value, sizeof(value)));
+	if (!(tmp = ft_lstnew(&value, sizeof(value))))
+		return (0);
+	ft_lstpush(list, tmp);
 	return (1);
 }
 
@@ -95,7 +98,6 @@ int		init_param(t_list **la, char **argv)
 		if (!process_param(la, *argv))
 		{
 			ft_putstr_fd("Error\n", 2);
-			free_list(la);
 			return (0);
 		}
 		argv++;

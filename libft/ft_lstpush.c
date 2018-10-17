@@ -13,8 +13,6 @@
 
 #include "libft.h"
 
-#include <stdio.h>
-
 void	ft_lstpush(t_list **alst, t_list *new)
 {
 	t_list *iterator;

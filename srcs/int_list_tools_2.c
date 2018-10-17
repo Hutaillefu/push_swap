@@ -13,18 +13,20 @@
 
 #include "push_swap.h"
 
-static void		free_maillon(void *content, size_t size)
-{
-	(void)size;
-	free(content);
-	content = NULL;
-}
-
 void			free_list(t_list **lst)
 {
-	if (!lst || !(*lst))
-		return ;
-	ft_lstdel(lst, free_maillon);
+	t_list	*it;
+	t_list	*next;
+
+	it = *lst;
+	while (it)
+	{
+		next = it->next;
+		free(it->content);
+		free(it);
+		it = NULL;
+		it = next;
+	}
 	lst = NULL;
 }
 

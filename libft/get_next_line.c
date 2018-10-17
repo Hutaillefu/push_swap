@@ -102,6 +102,8 @@ int			get_next_line(const int fd, char **line)
 	char			*res;
 	t_list			*current;
 
+	res = NULL;
+	current = NULL;
 	if (fd < 0 || !(line))
 		return (-1);
 	current = get_lst(&list, (size_t)fd);
