@@ -9,7 +9,10 @@ FLAGS = -Wall -Werror -Wextra
 TOOLS_FILES = 	./srcs/move.c	\
 				./srcs/tools.c \
 				./srcs/int_list_tools.c \
-				./srcs/complex_move.c
+				./srcs/int_list_tools_2.c \
+				./srcs/complex_move.c \
+				./srcs/sorter.c \
+				./srcs/command_processor.c
 
 PUSH_FILE = ./srcs/push_swap.c
 CHECK_FILE = ./srcs/checker.c

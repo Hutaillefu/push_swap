@@ -13,21 +13,6 @@
 
 #include "push_swap.h"
 
-int		init_param(t_list **la, char **argv)
-{
-	while (argv && *argv)
-	{
-		if (!process_param(la, *argv))
-		{
-			ft_putstr_fd("Error\n", 2);
-			free_list(la);
-			return (0);
-		}
-		argv++;
-	}
-	return (1);
-}
-
 int		main(int argc, char **argv)
 {
 	t_list	*la;

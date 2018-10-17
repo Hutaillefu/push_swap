@@ -94,3 +94,13 @@ void		move_median_to_head(t_list **la, t_list **lb)
 		ft_strdel(&cmd);
 	}
 }
+
+int			check_rotate(t_list **list_to_sort, t_list **other)
+{
+	if (can_rotate(list_to_sort))
+	{
+		move_min_to_head(list_to_sort, other);
+		return (1);
+	}
+	return (0);
+}
