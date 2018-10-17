@@ -76,7 +76,7 @@ int		ft_lstdoublon(t_list **lst, int value)
 
 int		process_param(t_list **list, char *param)
 {
-	long 	value;
+	long	value;
 	t_list	*tmp;
 
 	if (!list || !param)

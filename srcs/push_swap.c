@@ -55,8 +55,8 @@ static void		process(t_list **la, t_list **lb)
 		sort_4(la, lb);
 	else if (len < 20)
 		sort_n(la, lb);
-	 else
-	 	sort_max(la, lb);
+	else
+		sort_max(la, lb);
 }
 
 int				main(int argc, char **argv)
