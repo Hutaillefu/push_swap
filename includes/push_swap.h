@@ -45,4 +45,5 @@ void	sort_4(t_list **list_to_sort, t_list **other);
 void	sort_n(t_list **list_to_sort, t_list **other);
 int		check_rotate(t_list **list_to_sort, t_list **other);
 void	free_tmp(char **tmp);
+int		is_action(char *cmd);
 #endif

@@ -59,7 +59,7 @@ int		process_param(t_list **list, char *param)
 	long	value;
 	t_list	*tmp;
 
-	if (!list || !param)
+	if (!list || !param || ft_strlen(param) > 10)
 		return (0);
 	value = ft_atoi(param);
 	if (value > 2147483647 || (value == 0 && ft_strcmp(param, "0") != 0) ||
@@ -73,14 +73,19 @@ int		process_param(t_list **list, char *param)
 
 int		init_param(t_list **la, char **argv)
 {
-	while (argv && *argv)
+	int i;
+
+	if (!argv)
+		return (0);
+	i = 0;
+	while (argv[i])
 	{
-		if (!process_param(la, *argv))
+		if (!process_param(la, argv[i]))
 		{
 			ft_putstr_fd("Error\n", 2);
 			return (0);
 		}
-		argv++;
+		i++;
 	}
 	return (1);
 }
@@ -89,13 +94,15 @@ void	free_tmp(char **tmp)
 {
 	int i;
 
-	if (!tmp || !(*tmp))
+	if (!tmp)
 		return ;
 	i = 0;
 	while (tmp[i])
 	{
-		ft_strdel(&tmp[i]);
+		free(tmp[i]);
+		tmp[i] = NULL;
 		i++;
 	}
+	free(tmp);
 	tmp = NULL;
 }

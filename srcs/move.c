@@ -46,3 +46,19 @@ void	rotate_down(t_list **lst)
 		return ;
 	ft_lstadd(lst, ft_lstpoplast(lst));
 }
+
+int		is_action(char *cmd)
+{
+	if (!cmd || !(*cmd))
+		return (0);
+	return (ft_strcmp(cmd, "sa") == 0 ||
+	ft_strcmp(cmd, "sb") == 0 ||
+	ft_strcmp(cmd, "pa") == 0 ||
+	ft_strcmp(cmd, "pb") == 0 ||
+	ft_strcmp(cmd, "ra") == 0 ||
+	ft_strcmp(cmd, "rb") == 0 ||
+	ft_strcmp(cmd, "rr") == 0 ||
+	ft_strcmp(cmd, "rra") == 0 ||
+	ft_strcmp(cmd, "rrb") == 0 ||
+	ft_strcmp(cmd, "rrr") == 0);
+}

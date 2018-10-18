@@ -58,7 +58,7 @@ static int		read_param(t_list **la, t_list **lb, t_list **actions)
 	new = NULL;
 	while (get_next_line(0, &line))
 	{
-		if (!line || !(new = ft_lstnew(line, sizeof(line))))
+		if (!line || !is_action(line) || !(new = ft_lstnew(line, sizeof(line))))
 		{
 			free_var(la, lb, actions, &line);
 			return (0);
@@ -87,7 +87,10 @@ int				main(int argc, char **argv)
 		return (0);
 	}
 	if (!read_param(&la, &lb, &actions))
+	{
+		ft_putstr_fd("Error\n", 2);
 		return (0);
+	}
 	if (!process(&la, &lb, &actions))
 		return (0);
 	main_2(&la, &lb, &actions);
