@@ -13,26 +13,6 @@
 
 #include "push_swap.h"
 
-#include <stdio.h>
-
-void	display(const char *tag, t_list **lst)
-{
-	t_list *it;
-
-	if (!lst)
-		return ;
-	printf("%s", tag);
-	if (!(*lst))
-		printf("----------\n");
-	it = *lst;
-	while (it)
-	{
-		printf("%d ", (*(int *)it->content));
-		it = it->next;
-	}
-	printf("\n");
-}
-
 int		can_rotate(t_list **lst)
 {
 	t_list	*it;
@@ -103,4 +83,19 @@ int		init_param(t_list **la, char **argv)
 		argv++;
 	}
 	return (1);
+}
+
+void	free_tmp(char **tmp)
+{
+	int i;
+
+	if (!tmp || !(*tmp))
+		return ;
+	i = 0;
+	while (tmp[i])
+	{
+		ft_strdel(&tmp[i]);
+		i++;
+	}
+	tmp = NULL;
 }

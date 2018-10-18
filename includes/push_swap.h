@@ -21,7 +21,6 @@ void	move_sommet(t_list **from, t_list **to);
 void	rotate_up(t_list **lst);
 void	rotate_down(t_list **lst);
 
-void	display(const char *tag, t_list **list);
 int		ft_lstsorted(t_list **lst);
 int		ft_lstgetmax(t_list **lst);
 int		ft_lstgetmin(t_list **lst);
@@ -45,4 +44,5 @@ void	sort_3(t_list **list_to_sort, t_list **other);
 void	sort_4(t_list **list_to_sort, t_list **other);
 void	sort_n(t_list **list_to_sort, t_list **other);
 int		check_rotate(t_list **list_to_sort, t_list **other);
+void	free_tmp(char **tmp);
 #endif

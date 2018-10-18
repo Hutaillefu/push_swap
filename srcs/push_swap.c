@@ -27,19 +27,10 @@ static void		sort_max(t_list **la, t_list **lb)
 	}
 }
 
-static void		free_tmp(char **tmp)
+static void		free_lists(t_list **la, t_list **lb)
 {
-	int i;
-
-	if (!tmp || !(*tmp))
-		return ;
-	i = 0;
-	while (tmp[i])
-	{
-		ft_strdel(&tmp[i]);
-		i++;
-	}
-	tmp = NULL;
+	free_list(la);
+	free_list(lb);
 }
 
 static void		process(t_list **la, t_list **lb)
@@ -57,6 +48,26 @@ static void		process(t_list **la, t_list **lb)
 		sort_n(la, lb);
 	else
 		sort_max(la, lb);
+}
+
+void			main_2(t_list **la, t_list **lb, char **tmp, int fr)
+{
+	if (!init_param(la, tmp))
+	{
+		free_lists(la, lb);
+		if (fr)
+			free_tmp(tmp);
+		return ;
+	}
+	if (fr)
+		free_tmp(tmp);
+	if (ft_lstsorted(la))
+	{
+		free_lists(la, lb);
+		return ;
+	}
+	process(la, lb);
+	free_lists(la, lb);
 }
 
 int				main(int argc, char **argv)
@@ -81,24 +92,6 @@ int				main(int argc, char **argv)
 	}
 	else
 		tmp = argv;
-	if (!init_param(&la, tmp))
-	{
-		free_list(&la);
-		free_list(&lb);
-		if (fr)
-			free_tmp(tmp);
-		return (0);
-	}
-	if (fr)
-		free_tmp(tmp);
-	if (ft_lstsorted(&la))
-	{
-		free_list(&la);
-		free_list(&lb);
-		return (0);
-	}
-	process(&la, &lb);
-	free_list(&la);
-	free_list(&lb);
+	main_2(&la, &lb, tmp, fr);
 	return (0);
 }
