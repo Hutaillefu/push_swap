@@ -18,6 +18,8 @@ void			free_list(t_list **lst)
 	t_list	*it;
 	t_list	*next;
 
+	if (!lst)
+		return ;
 	it = *lst;
 	while (it)
 	{
