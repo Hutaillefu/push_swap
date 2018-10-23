@@ -83,3 +83,20 @@ int				ft_lstsorted(t_list **list)
 	}
 	return (1);
 }
+
+void			free_tmp(char **tmp)
+{
+	int i;
+
+	if (!tmp)
+		return ;
+	i = 0;
+	while (tmp[i])
+	{
+		free(tmp[i]);
+		tmp[i] = NULL;
+		i++;
+	}
+	free(tmp);
+	tmp = NULL;
+}

@@ -59,11 +59,11 @@ int		process_param(t_list **list, char *param)
 	long	value;
 	t_list	*tmp;
 
-	if (!list || !param || ft_strlen(param) > 10)
+	if (!list || !param || ft_strlen(param) > 100 || !ft_strisdigit(param))
 		return (0);
 	value = ft_atoi(param);
 	if (value > 2147483647 || (value == 0 && ft_strcmp(param, "0") != 0) ||
-	ft_lstdoublon(list, value))
+	ft_lstdoublon(list, value) || value < (-2147483648))
 		return (0);
 	if (!(tmp = ft_lstnew(&value, sizeof(value))))
 		return (0);
@@ -71,9 +71,9 @@ int		process_param(t_list **list, char *param)
 	return (1);
 }
 
-int		init_param(t_list **la, char **argv)
+int		loop_param(t_list **la, char **argv)
 {
-	int i;
+	int		i;
 
 	if (!argv)
 		return (0);
@@ -90,19 +90,30 @@ int		init_param(t_list **la, char **argv)
 	return (1);
 }
 
-void	free_tmp(char **tmp)
+int		init_param(t_list **la, char **argv, int argc)
 {
-	int i;
+	char	**tmp;
+	int		fr;
 
-	if (!tmp)
-		return ;
-	i = 0;
-	while (tmp[i])
-	{
-		free(tmp[i]);
-		tmp[i] = NULL;
-		i++;
-	}
-	free(tmp);
+	if (!argv)
+		return (0);
 	tmp = NULL;
+	fr = 0;
+	if (argc == 2 && ft_strchr(*argv, ' '))
+	{
+		fr = 1;
+		if (!(tmp = ft_strsplit(*argv, ' ')))
+			return (0);
+	}
+	else
+		tmp = argv;
+	if (!loop_param(la, tmp))
+	{
+		if (fr)
+			free_tmp(tmp);
+		return (0);
+	}
+	if (fr)
+		free_tmp(tmp);
+	return (1);
 }

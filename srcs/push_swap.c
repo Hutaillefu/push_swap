@@ -50,17 +50,13 @@ static void		process(t_list **la, t_list **lb)
 		sort_max(la, lb);
 }
 
-void			main_2(t_list **la, t_list **lb, char **tmp, int fr)
+void			main_2(t_list **la, t_list **lb, char **tmp, int argc)
 {
-	if (!init_param(la, tmp))
+	if (!init_param(la, tmp, argc))
 	{
 		free_lists(la, lb);
-		if (fr)
-			free_tmp(tmp);
 		return ;
 	}
-	if (fr)
-		free_tmp(tmp);
 	if (ft_lstsorted(la))
 	{
 		free_lists(la, lb);
@@ -74,24 +70,12 @@ int				main(int argc, char **argv)
 {
 	t_list	*la;
 	t_list	*lb;
-	char	**tmp;
-	int		fr;
 
 	la = NULL;
 	lb = NULL;
-	tmp = NULL;
-	fr = 0;
 	if (argc == 1)
 		return (0);
 	argv++;
-	if (argc == 2 && ft_strchr(*argv, ' '))
-	{
-		fr = 1;
-		if (!(tmp = ft_strsplit(*argv, ' ')))
-			return (0);
-	}
-	else
-		tmp = argv;
-	main_2(&la, &lb, tmp, fr);
+	main_2(&la, &lb, argv, argc);
 	return (0);
 }

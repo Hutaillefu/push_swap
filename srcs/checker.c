@@ -81,7 +81,7 @@ int				main(int argc, char **argv)
 	la = NULL;
 	lb = NULL;
 	actions = NULL;
-	if (!init_param(&la, ++argv))
+	if (!init_param(&la, ++argv, argc))
 	{
 		free_list(&la);
 		return (0);

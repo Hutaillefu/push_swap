@@ -38,7 +38,7 @@ int		lst_get_index(t_list **lst, int value);
 void	move_min_to_head(t_list **la, t_list **lb);
 void	move_max_to_head(t_list **la, t_list **lb);
 void	move_median_to_head(t_list **la, t_list **lb);
-int		init_param(t_list **la, char **argv);
+int		init_param(t_list **la, char **argv, int argc);
 void	sort_2(t_list **lst_to_sort, t_list **other);
 void	sort_3(t_list **list_to_sort, t_list **other);
 void	sort_4(t_list **list_to_sort, t_list **other);
