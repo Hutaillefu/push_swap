@@ -78,15 +78,13 @@ int				main(int argc, char **argv)
 {
 	t_list	*la;
 	t_list	*lb;
-	char	**tmp;
 
 	la = NULL;
 	lb = NULL;
-	tmp = NULL;
 	if (argc == 1)
 		return (0);
 	argv++;
-	if (!init_param(&la, tmp, argc))
+	if (!init_param(&la, argv, argc))
 	{
 		free_lists(&la, &lb);
 		return (0);
