@@ -13,13 +13,73 @@
 
 #include "push_swap.h"
 
+// static void		sort_max(t_list **la, t_list **lb)
+// {
+// 	while (la && (*la) && ft_lstlen(la) > 1)
+// 	{
+// 		move_median_to_head(la, lb);
+// 		process_command("pb", la, lb, 1);
+// 	}
+// 	while (ft_lstlen(lb) > 0)
+// 	{
+// 		move_max_to_head(la, lb);
+// 		process_command("pa", la, lb, 1);
+// 	}
+// }
+
+void	display(t_list **lst)
+{
+	t_list *it;
+
+	it = *lst;
+	while (it)
+	{
+		ft_putnbr(ft_lstgetvalue(&it));
+		ft_putchar(' ');
+		it = it->next;
+	}
+	ft_putchar('\n');
+}
+
+#include <stdio.h>
+
+int	is_min(t_list **list, int value)
+{
+	t_list *it;
+
+	if (!list)
+		return (0);
+	it = *list;
+	while (it)
+	{
+		if (ft_lstgetvalue(&it) <= value)
+			return (1);
+		it = it->next;
+	}
+	return (0);
+}
+
 static void		sort_max(t_list **la, t_list **lb)
 {
-	while (la && (*la) && ft_lstlen(la) > 1)
+	int		median;
+
+	while (la && *la && ft_lstlen(la) > 1)
 	{
-		move_median_to_head(la, lb);
-		process_command("pb", la, lb, 1);
+		median = ft_get_median(la);
+
+		while (is_min(la, median))
+		{
+			if (ft_lstgetvalue(la) <= median)
+				process_command("pb", la, lb, 1);
+			else
+				process_command("ra", la, lb, 1);
+		//	if (ft_lstlen(lb) >= 2 && ft_lstgetvalue(lb) < (*(int *)ft_lstgetindex(lb, ft_lstlen(lb) - 1)->content))
+		//		process_command("rb", la, lb, 1);
+ 		}
 	}
+
+//	 display(lb);
+
 	while (ft_lstlen(lb) > 0)
 	{
 		move_max_to_head(la, lb);

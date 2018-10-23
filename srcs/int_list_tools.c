@@ -74,9 +74,9 @@ int			ft_get_median(t_list **lst)
 	if (len == 2)
 		res = (tab[0] < tab[1] ? tab[0] : tab[1]);
 	else if (len % 2 != 0)
-		res = tab[len / 10];
+		res = tab[len / (ft_lstlen(lst) / 50 >= 2 ? ft_lstlen(lst) / 50 : 2)];
 	else
-		res = tab[(len + 1) / 10];
+		res = tab[(len + 1) / (ft_lstlen(lst) / 50 >= 2 ? ft_lstlen(lst) / 50 : 2)];
 	free(tab);
 	tab = NULL;
 	return (res);
