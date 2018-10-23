@@ -13,7 +13,7 @@
 
 #include "push_swap.h"
 
-int				is_min(t_list **list, int value)
+static int		is_min(t_list **list, int value)
 {
 	t_list *it;
 
