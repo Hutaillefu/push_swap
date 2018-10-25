@@ -29,6 +29,24 @@ static int		is_min(t_list **list, int value)
 	return (0);
 }
 
+//#include <stdio.h>
+
+// static void		display(char *tag, t_list **la)
+// {
+// 	t_list *it;
+
+// 	printf("%s", tag);
+// 	if (!la || !(*la))
+// 		return ;
+// 	it = *la;
+// 	while (it)
+// 	{
+// 		printf("%d ", ft_lstgetvalue(&it));
+// 		it = it->next;
+// 	}
+// 	printf("\n");
+// }
+
 static void		sort_max(t_list **la, t_list **lb)
 {
 	int		median;
@@ -42,7 +60,10 @@ static void		sort_max(t_list **la, t_list **lb)
 				process_command("pb", la, lb, 1);
 			else
 				process_command("ra", la, lb, 1);
+			if (lb && ft_lstlen(lb) > 1 && ft_lstgetvalue(lb) == median)
+				process_command("rb", la, lb, 1);
 		}
+		process_command("rrb", la, lb, 1);
 	}
 	while (ft_lstlen(lb) > 0)
 	{
