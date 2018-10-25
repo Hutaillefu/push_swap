@@ -1,3 +1,5 @@
+make
+
 max=0
 moy=0
 
