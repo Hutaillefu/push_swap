@@ -50,7 +50,9 @@ static int		is_min(t_list **list, int value)
 static void		sort_max(t_list **la, t_list **lb)
 {
 	int		median;
+	int		ret;
 
+	ret = 0;
 	while (la && *la && ft_lstlen(la) > 1)
 	{
 		median = ft_get_median(la);
@@ -60,10 +62,17 @@ static void		sort_max(t_list **la, t_list **lb)
 				process_command("pb", la, lb, 1);
 			else
 				process_command("ra", la, lb, 1);
-			if (lb && ft_lstlen(lb) > 1 && ft_lstgetvalue(lb) == median)
+			if (lb && ft_lstlen(lb) > 1 && ft_lstgetvalue(lb) == median && is_min(la, median))
+			{
+				ret = 1;
 				process_command("rb", la, lb, 1);
+			}
 		}
-		process_command("rrb", la, lb, 1);
+		if (ret)
+		{
+			ret = 0;
+			process_command("rrb", la, lb, 1);
+		}
 	}
 	while (ft_lstlen(lb) > 0)
 	{
