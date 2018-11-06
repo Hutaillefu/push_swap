@@ -12,7 +12,9 @@ TOOLS_FILES = 	./srcs/move.c	\
 				./srcs/int_list_tools_2.c \
 				./srcs/complex_move.c \
 				./srcs/sorter.c \
-				./srcs/command_processor.c
+				./srcs/command_processor.c \
+				./srcs/sorter_max.c
+		
 
 PUSH_FILE = ./srcs/push_swap.c
 CHECK_FILE = ./srcs/checker.c

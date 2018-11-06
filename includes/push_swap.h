@@ -43,7 +43,9 @@ void	sort_2(t_list **lst_to_sort, t_list **other);
 void	sort_3(t_list **list_to_sort, t_list **other);
 void	sort_4(t_list **list_to_sort, t_list **other);
 void	sort_n(t_list **list_to_sort, t_list **other);
+void	sort_max(t_list **la, t_list **lb);
 int		check_rotate(t_list **list_to_sort, t_list **other);
 void	free_tmp(char **tmp);
 int		is_action(char *cmd);
+int		is_min(t_list **list, int value);
 #endif
